@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button'
 export default function Landing() {
   return (
     <div className="flex h-screen flex-col px-[37px] py-[60px]">
-      <div className="flex h-1/2 flex-col items-center justify-center gap-[12px] text-point">
+      <div className="flex h-1/2 flex-col items-center justify-center gap-3 text-point">
         <h1 className="text-[64px] font-semibold italic">HAAP!</h1>
         <p className="text-[14px] font-semibold">당신을 위한 음악 공간</p>
       </div>
