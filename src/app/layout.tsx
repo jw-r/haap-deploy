@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import { cn } from '@/lib/utils'
 import TanstackProvider from '@/providers/tanstack-provider'
+import { SessionProvider } from 'next-auth/react'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
 
@@ -19,11 +20,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={cn(inter.variable, 'bg-background text-white')}>
-        <TanstackProvider>
-          <div className="relative m-auto min-h-screen max-w-[420px] overflow-hidden shadow-sm shadow-accent">
-            {children}
-          </div>
-        </TanstackProvider>
+        <SessionProvider>
+          <TanstackProvider>
+            <div className="relative m-auto min-h-screen max-w-[420px] overflow-hidden shadow-sm shadow-accent">
+              {children}
+            </div>
+          </TanstackProvider>
+        </SessionProvider>
       </body>
     </html>
   )
