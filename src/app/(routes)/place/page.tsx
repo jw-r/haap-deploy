@@ -2,11 +2,14 @@
 
 import { useState } from 'react'
 import NaverMap from './components/naver-map'
+import { PlaceItem } from '@/components/ui/place-item'
 import { mockingPlaceList } from './mocks'
 import Marker from './components/marker'
+import SearchInput from '@/components/search-input'
 
 export default function Place() {
-  const [currentPlaceId, setCurrentPlaceId] = useState(mockingPlaceList[0].id)
+  const [currentPlace, setCurrentPlace] = useState(mockingPlaceList[0])
+
   const mapOptions = {
     minZoom: 9,
     scaleControl: false,
@@ -14,16 +17,27 @@ export default function Place() {
   }
 
   return (
-    <NaverMap mapOptions={mapOptions}>
-      {mockingPlaceList.map(({ id, latitude, longitude }) => (
-        <Marker
-          key={id}
-          id={id}
-          coordinates={{ lat: latitude, lng: longitude }}
-          onClick={() => setCurrentPlaceId(id)}
-          active={currentPlaceId === id}
-        />
-      ))}
-    </NaverMap>
+    <>
+      <NaverMap mapOptions={mapOptions}>
+        {mockingPlaceList.map((place) => {
+          const { id, latitude, longitude } = place
+          return (
+            <Marker
+              key={id}
+              id={id}
+              coordinates={{ lat: latitude, lng: longitude }}
+              onClick={() => setCurrentPlace(place)}
+              active={currentPlace.id === id}
+            />
+          )
+        })}
+      </NaverMap>
+      <div className="absolute top-[77px] mx-[calc(50%-160px)] w-[320px]">
+        <SearchInput />
+      </div>
+      <div className="absolute bottom-0 w-full bg-background-secondary">
+        <PlaceItem place={currentPlace} />
+      </div>
+    </>
   )
 }
