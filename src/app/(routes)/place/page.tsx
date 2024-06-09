@@ -6,7 +6,6 @@ import { PlaceItem } from '@/components/ui/place-item'
 import { mockingPlaceList } from './mocks'
 import Marker from './components/marker'
 import SearchInput from '@/components/search-input'
-import Link from 'next/link'
 
 export default function Place() {
   const [currentPlace, setCurrentPlace] = useState(mockingPlaceList[0])
@@ -36,12 +35,9 @@ export default function Place() {
       <div className="absolute top-[77px] mx-[calc(50%-160px)] w-[320px]">
         <SearchInput />
       </div>
-      <Link
-        href={`/place/${currentPlace.id}`}
-        className="absolute bottom-0 w-full bg-background-secondary"
-      >
+      <div className="absolute bottom-0 w-full bg-background-secondary">
         <PlaceItem place={currentPlace} />
-      </Link>
+      </div>
     </>
   )
 }

@@ -1,5 +1,5 @@
 import RoomItem from '@/components/ui/room-item'
-import Header from '../../../components/ui/header'
+import Header from '../room/[roomId]/components/header'
 import { FavoriteRooms } from './mocks'
 
 export default function Favorites() {
