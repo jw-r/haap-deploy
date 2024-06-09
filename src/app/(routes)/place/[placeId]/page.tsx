@@ -5,24 +5,30 @@ import ReviewCard from '@/components/ui/review-card'
 import Review from '@/components/ui/review'
 import Link from 'next/link'
 import { Heart } from 'lucide-react'
-import { mockImages, reviews } from './mocks'
+import { mockImages, reviews } from '../../room/[roomId]/mocks'
+import { PlaceRooms } from './mocks'
+import RoomItem from '@/components/ui/room-item'
 
-interface RoomDetailProps {
+interface PlaceDetailProps {
   params: {
     roomId: string
   }
   searchParams: {
-    tab?: 'info' | 'photos' | 'reviews'
+    tab?: 'info' | 'photos' | 'reviews' | 'rooms'
   }
 }
 
 const defaultTabQuery = 'info'
 
-export default function RoomDetail({ /* params, */ searchParams }: RoomDetailProps) {
+export default function PlaceDetail({ /* params, */ searchParams }: PlaceDetailProps) {
   const tabItems = [
     {
       query: 'info',
       label: '정보',
+    },
+    {
+      query: 'rooms',
+      label: '방 정보',
     },
     {
       query: 'photos',
@@ -37,43 +43,33 @@ export default function RoomDetail({ /* params, */ searchParams }: RoomDetailPro
   const Content = () => {
     switch (searchParams.tab) {
       case 'info':
-        return <RoomInfo />
+        return <PlaceInfo />
       case 'photos':
-        return <RoomPhotos />
+        return <PlacePhotos />
       case 'reviews':
-        return <RoomReviews />
+        return <PlaceReviews />
+      case 'rooms':
+        return <PlaceRoomList />
       default:
-        return <RoomInfo />
+        return <PlaceInfo />
     }
   }
 
   return (
     <div className="container flex flex-col gap-[18px] pb-[50px] pt-[77px]">
-      <Header title="판교의 집 - A룸" />
+      <Header title="판교의 집" />
       <TabNav items={tabItems} currQuery={searchParams.tab || defaultTabQuery} />
       <Content />
     </div>
   )
 }
 
-function RoomInfo() {
+function PlaceInfo() {
   return (
     <div className="divide-y divide-solid divide-background-secondary">
       <section className="flex flex-col gap-3 pb-[18px]">
         <span className="text-[12px]">정보</span>
         <div className="flex flex-col gap-3 text-[12px]">
-          <div className="flex items-start gap-3">
-            <Heart size={14} className="shrink-0" />
-            <span>4인에서 6인정도 수용 가능한 공간 입니다. 악기는 드럼만 구비되어 있습니다.</span>
-          </div>
-          <div className="flex gap-3">
-            <Heart size={14} className="shrink-0" />
-            <span>100,000원 ~ 120,000원</span>
-          </div>
-          <div className="flex gap-3">
-            <Heart size={14} className="shrink-0" />
-            <span>4인 ~ 6인</span>
-          </div>
           <div className="flex gap-3">
             <Heart size={14} className="shrink-0" />
             <span>경기 성남시 중원구 구체적인 주소 블라블라블라</span>
@@ -94,7 +90,10 @@ function RoomInfo() {
           </div>
         </div>
       </section>
-
+      <section className="flex flex-col gap-3 pb-[36px] pt-[18px]">
+        <span className="text-[12px]">방 정보</span>
+        <PlaceRoomList />
+      </section>
       <section className="flex flex-col gap-3 pb-[36px] pt-[18px]">
         <span className="text-[12px]">리뷰 사진</span>
         <div className="grid h-[80px] grid-cols-4 gap-[13px]">
@@ -130,7 +129,7 @@ function RoomInfo() {
   )
 }
 
-function RoomPhotos() {
+function PlacePhotos() {
   return (
     <div className="grid grid-cols-4 gap-[13px]">
       {Array.from({ length: 100 }).map((_, index) => (
@@ -148,7 +147,7 @@ function RoomPhotos() {
   )
 }
 
-function RoomReviews() {
+function PlaceReviews() {
   return (
     <div className="flex flex-col gap-3">
       <Review />
@@ -165,4 +164,16 @@ function RoomReviews() {
       ))}
     </div>
   )
+}
+
+function PlaceRoomList() {
+  return PlaceRooms.map((room) => (
+    <Link
+      href={`/room/${room.id}`}
+      className="flex flex-col gap-[8px] rounded-[12px] bg-background-secondary"
+      key={room.id}
+    >
+      <RoomItem room={room} />
+    </Link>
+  ))
 }
