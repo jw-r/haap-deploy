@@ -10,9 +10,15 @@ const mockRatings = [
 export default function Review() {
   return (
     <div className="flex flex-col gap-3">
-      <div className="flex gap-3 text-[12px]">
-        <span>리뷰</span>
-        <span className="text-point">8개</span>
+      <div className="flex items-center justify-between text-[12px]">
+        <div className="flex gap-3">
+          <span>리뷰</span>
+          <span className="text-point">8개</span>
+        </div>
+        <button className="flex items-center gap-1 px-2 py-1 text-link">
+          <Image src={icons.edit} width={20} height={19} alt="" />
+          <span>리뷰 쓰기</span>
+        </button>
       </div>
       <div className="flex items-center gap-[7px] px-[16px]">
         <span className="text-point">3.2</span>
