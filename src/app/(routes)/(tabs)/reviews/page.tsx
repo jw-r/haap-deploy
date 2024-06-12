@@ -1,6 +1,6 @@
 import Header from '@/components/ui/header'
 import ReviewCard from '@/components/ui/review-card'
-import { reviews } from '../room/[roomId]/mocks'
+import { reviews } from '../../room/[roomId]/mocks'
 
 export default function Reviews() {
   return (

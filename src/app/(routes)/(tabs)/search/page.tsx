@@ -1,6 +1,6 @@
 import SearchInput from '@/components/search-input'
 import { mockingDistricts, mockingStations } from './mocks'
-import { mockingPlaceList } from '../place/mocks'
+import { mockingPlaceList } from '../../place/mocks'
 import { PlaceItem } from '@/components/ui/place-item'
 import Image from 'next/image'
 import icons from '@/constants/icons'

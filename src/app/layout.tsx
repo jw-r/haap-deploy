@@ -22,7 +22,7 @@ export default function RootLayout({
       <body className={cn(inter.variable, 'bg-background text-white')}>
         <SessionProvider>
           <TanstackProvider>
-            <div className="relative m-auto min-h-screen max-w-[420px] overflow-hidden shadow-sm shadow-accent">
+            <div className="screen relative m-auto min-h-screen overflow-hidden shadow-sm shadow-accent">
               {children}
             </div>
           </TanstackProvider>

@@ -73,4 +73,7 @@
   body {
     @apply bg-background text-foreground;
   }
+  .screen {
+    @apply max-w-[420px] w-full;
+  }
 }
