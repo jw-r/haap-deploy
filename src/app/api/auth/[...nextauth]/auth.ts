@@ -2,7 +2,7 @@ import NextAuth, { Account, DefaultSession, NextAuthResult } from 'next-auth'
 import Kakao from 'next-auth/providers/kakao'
 import Google from 'next-auth/providers/google'
 import Naver from 'next-auth/providers/naver'
-import { UserDTO } from '@/apis/types/user.dto'
+import { UserDTO } from '@/apis/types/dto/user.dto'
 
 declare module 'next-auth' {
   interface Session {

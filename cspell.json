@@ -13,5 +13,5 @@
     "*.mjs"
   ],
   "files": ["src/**/*.tsx", "src/**/*.ts"],
-  "words": ["haap", "Tanstack", "clsx", "Naver", "naver", "Kakao"]
+  "words": ["haap", "Tanstack", "clsx", "Naver", "naver", "Kakao", "myreviews"]
 }
