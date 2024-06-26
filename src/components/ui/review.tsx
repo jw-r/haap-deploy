@@ -1,5 +1,6 @@
 import icons from '@/constants/icons'
 import Image from 'next/image'
+import Link from 'next/link'
 
 const mockRatings = [
   { id: 'price', rate: 5, label: '가격' },
@@ -8,6 +9,7 @@ const mockRatings = [
 ]
 
 export default function Review() {
+  const { placeId, roomId } = { placeId: 1, roomId: 1 } // todo: 나중에는  url query를 통해서 얻어오는 방식으로 교체
   return (
     <div className="flex flex-col gap-3">
       <div className="flex items-center justify-between text-[12px]">
@@ -15,10 +17,20 @@ export default function Review() {
           <span>리뷰</span>
           <span className="text-point">8개</span>
         </div>
-        <button className="flex items-center gap-1 px-2 py-1 text-link">
+        <Link
+          href={{
+            pathname: '/reviews/new',
+            query: {
+              placeId,
+              roomId,
+            },
+          }}
+          // todo: roomId만 전달하고 review-form 내부에서 처리하는 방법으로 하는 것이 더 적합할 수도 있을 것 같습니다.
+          className="flex items-center gap-1 px-2 py-1 text-link"
+        >
           <Image src={icons.edit} width={20} height={19} alt="" />
           <span>리뷰 쓰기</span>
-        </button>
+        </Link>
       </div>
       <div className="flex items-center gap-[7px] px-[16px]">
         <span className="text-point">3.2</span>
