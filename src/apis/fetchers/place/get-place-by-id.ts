@@ -1,10 +1,9 @@
 import { API_ENDPOINT } from '@/apis/api-endpoint'
-import { PublicRequest } from '@/apis/types/common'
 import { OperatingTime, Tag } from '@/apis/types/dto/place.dto'
 
 import { apiClient } from '@/lib/api-client'
 
-interface GetPlaceByIdParams extends PublicRequest {
+interface GetPlaceByIdParams extends NextFetchRequestConfig {
   placeId: number
   queryParams: {
     station?: string

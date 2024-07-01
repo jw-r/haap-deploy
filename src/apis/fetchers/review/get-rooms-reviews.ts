@@ -1,9 +1,8 @@
 import { API_ENDPOINT } from '@/apis/api-endpoint'
-import { PublicRequest } from '@/apis/types/common'
 import { Review } from '@/apis/types/dto/review.dto'
 import { apiClient } from '@/lib/api-client'
 
-interface GetRoomsReviewsParams extends PublicRequest {
+interface GetRoomsReviewsParams extends NextFetchRequestConfig {
   queryParams: {
     roomIds?: number[]
     startId?: number

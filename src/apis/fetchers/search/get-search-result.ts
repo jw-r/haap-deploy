@@ -1,9 +1,8 @@
 import { API_ENDPOINT } from '@/apis/api-endpoint'
-import { PublicRequest } from '@/apis/types/common'
 import { Tag } from '@/apis/types/dto/place.dto'
 import { apiClient } from '@/lib/api-client'
 
-interface GetSearchResultParams extends PublicRequest {
+interface GetSearchResultParams extends NextFetchRequestConfig {
   queryParams: {
     keyword: string
   }

@@ -29,8 +29,8 @@ export const API_ENDPOINT = {
       method: HttpMethod.GET,
     }),
 
-    getPlaceImages: (placeId: number) => ({
-      url: `/places/${placeId}/images`,
+    getPlacePhotos: (placeId: number) => ({
+      url: `/places/${placeId}/photos`,
       method: HttpMethod.GET,
     }),
   },
@@ -44,8 +44,8 @@ export const API_ENDPOINT = {
     /** 미완 */
     getRoomById: () => ({}),
 
-    getRoomImages: (roomId: number) => ({
-      url: `/rooms/${roomId}/images`,
+    getRoomPhotos: (roomId: number) => ({
+      url: `/rooms/${roomId}/photos`,
       method: HttpMethod.GET,
     }),
   },

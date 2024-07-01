@@ -1,8 +1,7 @@
 import { API_ENDPOINT } from '@/apis/api-endpoint'
-import { CredentialRequest } from '@/apis/types/common'
 import { apiClient } from '@/lib/api-client'
 
-interface PostBookmarkParams extends CredentialRequest {
+interface PostBookmarkParams extends NextFetchRequestConfig {
   roomId: number
   comment?: string
 }
@@ -15,9 +14,6 @@ export const postBookmark = async (params: PostBookmarkParams) => {
     body: {
       roomId: params.roomId,
       comment: params.comment,
-    },
-    headers: {
-      Authorization: `Bearer ${params.accessToken}`,
     },
   })
 }

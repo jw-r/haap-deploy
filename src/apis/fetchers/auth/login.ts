@@ -1,8 +1,7 @@
 import { API_ENDPOINT } from '@/apis/api-endpoint'
-import { CredentialRequest } from '@/apis/types/common'
 import { apiClient } from '@/lib/api-client'
 
-interface LoginParams extends CredentialRequest {
+interface LoginParams extends NextFetchRequestConfig {
   identity: string
   password: string
 }
@@ -15,9 +14,6 @@ export const login = async (params: LoginParams) => {
     body: {
       identity: params.identity,
       password: params.password,
-    },
-    headers: {
-      Authorization: `Bearer ${params.accessToken}`,
     },
   })
 }

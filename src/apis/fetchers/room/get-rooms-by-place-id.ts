@@ -1,9 +1,8 @@
 import { API_ENDPOINT } from '@/apis/api-endpoint'
-import { PublicRequest } from '@/apis/types/common'
 
 import { apiClient } from '@/lib/api-client'
 
-interface GetRoomsByPlaceIdParams extends PublicRequest {
+interface GetRoomsByPlaceIdParams extends NextFetchRequestConfig {
   placeId: number
 }
 

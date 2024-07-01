@@ -1,9 +1,8 @@
 import { API_ENDPOINT } from '@/apis/api-endpoint'
-import { PublicRequest } from '@/apis/types/common'
 import { Tag } from '@/apis/types/dto/place.dto'
 import { apiClient } from '@/lib/api-client'
 
-interface GetPlacesParams extends PublicRequest {
+interface GetPlacesParams extends NextFetchRequestConfig {
   queryParams: {
     station?: string
     address?: string

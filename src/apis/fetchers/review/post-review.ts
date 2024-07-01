@@ -1,9 +1,8 @@
 import { API_ENDPOINT } from '@/apis/api-endpoint'
-import { CredentialRequest } from '@/apis/types/common'
 import { Rating } from '@/apis/types/dto/review.dto'
 import { apiClient } from '@/lib/api-client'
 
-interface PostReviewParams extends CredentialRequest {
+interface PostReviewParams extends NextFetchRequestConfig {
   roomId: number
   content: string
   ratings: Rating[]
@@ -17,9 +16,6 @@ export const postReview = async (params: PostReviewParams) => {
     body: {
       content: params.content,
       ratings: params.ratings,
-    },
-    headers: {
-      Authorization: `Bearer ${params.accessToken}`,
     },
   })
 }
