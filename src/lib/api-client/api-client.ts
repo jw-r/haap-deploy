@@ -80,12 +80,12 @@ class ApiClient {
     if (res.status === 204) {
       return Promise.resolve() as unknown as T
     }
-    const data = (await res.json()) as T
-    return data
+    const data = (await res.json()) as { message: string; body: T }
+    return data.body
   }
 }
 
 export const apiClient = new ApiClient({
-  baseUrl: 'server api url',
+  baseUrl: 'https://server.haap.r-e.kr',
   revalidate: 0,
 })
