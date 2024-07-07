@@ -5,7 +5,7 @@ import Image from 'next/image'
 import icons from '@/constants/icons'
 import { useState } from 'react'
 import { useSearchParams } from 'next/navigation'
-import { PlaceRooms } from '@/app/(routes)/place/[placeId]/mocks'
+import { useGetRoomsByPlaceId } from '@/apis/fetchers/room/get-rooms-by-place-id/query'
 
 const ratingContents = [
   { question: '가격은 합리적이었나요?', category: 'price' },
@@ -22,7 +22,9 @@ export default function ReviewForm({ handleSubmit }: ReviewFormProps) {
   const searchParams = useSearchParams()
 
   const roomId = searchParams.get('roomId') || undefined
-  const roomList = PlaceRooms
+  const placeId = searchParams.get('placeId') || undefined
+
+  const { data: roomList } = useGetRoomsByPlaceId({ placeId: Number(placeId) })
 
   function onFileUpload(files: FileList | null) {
     if (!files) return
@@ -44,9 +46,7 @@ export default function ReviewForm({ handleSubmit }: ReviewFormProps) {
         name="roomId"
         onChange={(e) => onRoomIdChange(e.target.value)}
       >
-        {roomList.map(({ name, id }) => (
-          <option label={name} key={id} value={id} />
-        ))}
+        {roomList?.map(({ name, id }) => <option label={name} key={id} value={id} />)}
       </select>
       {ratingContents.map(({ question, category }) => (
         <div className="flex flex-col gap-[8px]" key={category}>

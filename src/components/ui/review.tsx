@@ -8,8 +8,12 @@ const mockRatings = [
   { id: 'location', rate: 5, label: '위치' },
 ]
 
-export default function Review() {
-  const { placeId, roomId } = { placeId: 1, roomId: 1 } // todo: 나중에는  url query를 통해서 얻어오는 방식으로 교체
+interface ReviewProps {
+  placeId: number
+  roomId: number
+}
+
+export default function Review({ placeId, roomId }: ReviewProps) {
   return (
     <div className="flex flex-col gap-3">
       <div className="flex items-center justify-between text-[12px]">

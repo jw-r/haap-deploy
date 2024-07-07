@@ -7,6 +7,16 @@ const nextConfig = {
         hostname: 'resources.chimhaha.net',
         port: '',
       },
+      {
+        protocol: 'https',
+        hostname: 'cdn.pixabay.com',
+        port: '',
+      },
+      {
+        protocol: 'https',
+        hostname: 'zrr.kr',
+        port: '',
+      },
     ],
   },
 }

@@ -1,1 +1,3 @@
 export const DEFAULT_REVALIDATE = 0
+
+export const DEFAULT_STALE_TIME = 10000

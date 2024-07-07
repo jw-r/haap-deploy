@@ -3,13 +3,8 @@ import { OperatingTime, Tag } from '@/apis/types/dto/place.dto'
 
 import { apiClient } from '@/lib/api-client'
 
-interface GetPlaceByIdParams extends NextFetchRequestConfig {
+export interface GetPlaceByIdParams extends NextFetchRequestConfig {
   placeId: number
-  queryParams: {
-    station?: string
-    address?: string
-    startId?: number
-  }
 }
 
 interface GetPlaceByIdResponse {
@@ -26,8 +21,5 @@ interface GetPlaceByIdResponse {
 export const getPlaceById = async (params: GetPlaceByIdParams) => {
   return await apiClient.fetch<GetPlaceByIdResponse>({
     ...API_ENDPOINT.place.getPlaceById(params.placeId),
-    query: {
-      ...params.queryParams,
-    },
   })
 }

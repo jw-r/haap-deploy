@@ -1,8 +1,8 @@
 export interface Room {
   id: number
   name: string
-  rate: number
-  representationImage: string
+  averageRating: number
+  representativePhoto: string
   description?: string
   comments?: string
 }
