@@ -1,24 +1,44 @@
+import { signOut } from '@/app/api/auth/[...nextauth]/auth'
 import Link from 'next/link'
+import { Fragment } from 'react'
 
-const navButtons = [
+type SectionItem = {
+  title: string
+  items: Array<
+    | { name: string; type: 'link'; href: string }
+    | { name: string; type: 'action'; action: () => Promise<void> }
+  >
+}
+
+const sectionItems: SectionItem[] = [
   {
-    category: '기록',
+    title: '기록',
     items: [
-      { name: '즐겨찾기', link: '/favorites' },
-      { name: '내가 쓴 리뷰', link: '/reviews' },
+      { name: '즐겨찾기', type: 'link', href: '/favorites' },
+      { name: '내가 쓴 리뷰', type: 'link', href: '/reviews' },
     ],
   },
   {
-    category: '내 정보',
+    title: '내 정보',
     items: [
-      { name: '회원정보 변경', link: '/' },
-      { name: '개인정보처리방침', link: '/' },
-      { name: '버전정보', link: '/' },
+      { name: '회원정보 변경', type: 'link', href: '/' },
+      { name: '개인정보처리방침', type: 'link', href: '/' },
+      { name: '버전정보', type: 'link', href: '/' },
     ],
   },
   {
-    category: '기타',
-    items: [{ name: '로그아웃', link: '/' }],
+    title: '기타',
+    items: [
+      {
+        name: '로그아웃',
+        type: 'action',
+        action: async () => {
+          'use server'
+
+          await signOut()
+        },
+      },
+    ],
   },
 ]
 
@@ -29,16 +49,22 @@ export default function MyPage() {
         <div className="text-[14px]">안녕하세요</div>
         <div className="text-[36px] font-semibold">합죽이합님,</div>
       </div>
-      {navButtons.map(({ category, items }) => (
+      {sectionItems.map(({ title, items }) => (
         <div
-          key={category}
+          key={title}
           className="flex flex-col gap-[16px] border-b-2 border-b-background-secondary py-[16px]"
         >
-          <div className="text-[12px] text-gray">{category}</div>
-          {items.map(({ name, link }) => (
-            <Link key={name} href={link}>
-              {name}
-            </Link>
+          <div className="text-[12px] text-gray">{title}</div>
+          {items.map((item) => (
+            <Fragment key={item.name}>
+              {item.type === 'link' ? (
+                <Link href={item.href}>{item.name}</Link>
+              ) : (
+                <form action={item.action}>
+                  <button>{item.name}</button>
+                </form>
+              )}
+            </Fragment>
           ))}
         </div>
       ))}
