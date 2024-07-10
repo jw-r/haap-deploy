@@ -9,10 +9,10 @@ interface TabNavProps {
     query: string
     label: string
   }[]
-  currQuery: string
+  currTabItem: string
 }
 
-export default function TabNav({ items, currQuery }: TabNavProps) {
+export default function TabNav({ items, currTabItem }: TabNavProps) {
   const pathname = usePathname()
 
   return (
@@ -24,7 +24,7 @@ export default function TabNav({ items, currQuery }: TabNavProps) {
           replace
           className={cn(
             'flex py-[10.5px] flex-1 justify-center border-b-2 border-background-secondary',
-            currQuery === query && 'border-point',
+            currTabItem === query && 'border-point',
           )}
         >
           {label}

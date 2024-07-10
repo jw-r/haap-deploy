@@ -5,6 +5,8 @@ import MarkerIcon from '../../public/icons/MarkerIcon.svg'
 import MarkerSmallIcon from '../../public/icons/MarkerSmallIcon.svg'
 import camera from '../../public/icons/camera.svg'
 import edit from '../../public/icons/edit.svg'
+import kakao from '../../public/icons/kakao.svg'
+import google from '../../public/icons/google.svg'
 
 const icons = {
   star,
@@ -12,6 +14,8 @@ const icons = {
   MarkerSmallIcon,
   camera,
   edit,
+  kakao,
+  google,
 }
 
 export default icons as Record<keyof typeof icons, StaticImport>

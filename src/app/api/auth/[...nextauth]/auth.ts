@@ -3,6 +3,7 @@ import Kakao from 'next-auth/providers/kakao'
 import Google from 'next-auth/providers/google'
 import Naver from 'next-auth/providers/naver'
 import { UserDTO } from '@/apis/types/dto/user.dto'
+import { loginOauth } from '@/apis/fetchers/auth/login-oauth'
 
 declare module 'next-auth' {
   interface Session {
@@ -23,21 +24,22 @@ export const {
 } = NextAuth({
   providers: [Kakao, Google, Naver],
   callbacks: {
-    jwt: ({ token, account }) => {
-      if (account) {
+    jwt: async ({ token, account }) => {
+      if (account?.access_token) {
         try {
-          /** TODO: request server accessToken */
-          const accessToken = ''
-          token.account = account
-          token.accessToken = accessToken
+          const user = await loginOauth({
+            accessToken: account.access_token,
+            oauthProvider: account.provider.toUpperCase() as 'KAKAO' | 'GOOGLE',
+          })
+          token.userDTO = user
         } catch (error) {
-          throw new Error('Failed to get backend access token')
+          throw new Error('Failed to LogIn')
         }
 
         try {
-          /** TODO: request user */
-          const user = {}
-          token.userDTO = user
+          /* TODO Get User */
+          // const user = await getUserInfo()
+          // token.userDTO = user
         } catch (error) {
           throw new Error('Failed to get user')
         }
@@ -50,6 +52,7 @@ export const {
       session.user.id = token.sub || ''
       session.user.accessToken = token.accessToken as string
       session.user.account = token.account as Account
+      session.user.dto = token.userDTO as UserDTO
 
       return session
     },

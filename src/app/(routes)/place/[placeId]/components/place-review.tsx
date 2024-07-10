@@ -1,7 +1,7 @@
 import { getRoomsByPlaceId } from '@/apis/fetchers/room/get-rooms-by-place-id/fetcher'
-import { reviews } from '@/app/(routes)/room/[roomId]/mocks'
 import Review from '@/components/ui/review'
 import ReviewCard from '@/components/ui/review-card'
+import { reviews } from '../room/[roomId]/mocks'
 
 interface PlaceReviewProps {
   placeId: number

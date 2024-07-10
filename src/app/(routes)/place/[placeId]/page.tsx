@@ -56,7 +56,7 @@ export default async function PlaceDetail({ params: { placeId }, searchParams }:
   return (
     <div className="container flex flex-col gap-[18px] pb-[50px] pt-[77px]">
       <Header title={name} />
-      <TabNav items={tabItems} currQuery={searchParams.tab || defaultTabQuery} />
+      <TabNav items={tabItems} currTabItem={searchParams.tab || defaultTabQuery} />
       <Content />
     </div>
   )

@@ -80,4 +80,11 @@ export const API_ENDPOINT = {
       method: HttpMethod.POST,
     }),
   },
+
+  user: {
+    getUserinfo: () => ({
+      url: `/member-info`,
+      method: HttpMethod.GET,
+    }),
+  },
 }

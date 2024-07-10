@@ -1,62 +1,11 @@
-import Image from 'next/image'
-import Header from '@/components/ui/header'
-import TabNav from '@/components/ui/tab-nav'
-import ReviewCard from '@/components/ui/review-card'
-import Review from '@/components/ui/review'
-import Link from 'next/link'
 import { Heart } from 'lucide-react'
-import { mockImages, reviews } from './mocks'
+import Link from 'next/link'
+import { mockImages, reviews } from '../[roomId]/mocks'
+import Image from 'next/image'
+import Review from '@/components/ui/review'
+import ReviewCard from '@/components/ui/review-card'
 
-interface RoomDetailProps {
-  params: {
-    roomId: string
-  }
-  searchParams: {
-    tab?: 'info' | 'photos' | 'reviews'
-  }
-}
-
-const defaultTabQuery = 'info'
-
-export default function RoomDetail({ /* params, */ searchParams }: RoomDetailProps) {
-  const tabItems = [
-    {
-      query: 'info',
-      label: '정보',
-    },
-    {
-      query: 'photos',
-      label: '사진',
-    },
-    {
-      query: 'reviews',
-      label: '리뷰',
-    },
-  ]
-
-  const Content = () => {
-    switch (searchParams.tab) {
-      case 'info':
-        return <RoomInfo />
-      case 'photos':
-        return <RoomPhotos />
-      case 'reviews':
-        return <RoomReviews />
-      default:
-        return <RoomInfo />
-    }
-  }
-
-  return (
-    <div className="container flex flex-col gap-[18px] pb-[50px] pt-[77px]">
-      <Header title="판교의 집 - A룸" />
-      <TabNav items={tabItems} currQuery={searchParams.tab || defaultTabQuery} />
-      <Content />
-    </div>
-  )
-}
-
-function RoomInfo() {
+export function RoomInfo() {
   // TODO: 추후 실제 값으로 대체 Review 수정으로 인한 가짜 데이터 추가
 
   const placeId = 1
@@ -131,47 +80,6 @@ function RoomInfo() {
           />
         ))}
       </section>
-    </div>
-  )
-}
-
-function RoomPhotos() {
-  return (
-    <div className="grid grid-cols-4 gap-[13px]">
-      {Array.from({ length: 100 }).map((_, index) => (
-        <div key={index} className="relative aspect-square">
-          <Image
-            src={mockImages[0]}
-            alt=""
-            fill
-            style={{ width: '100%', height: '100%' }}
-            objectFit="cover"
-          />
-        </div>
-      ))}
-    </div>
-  )
-}
-
-function RoomReviews() {
-  // TODO: 추후 실제 값으로 대체 Review 수정으로 인한 가짜 데이터 추가
-
-  const placeId = 1
-  const roomId = 1
-  return (
-    <div className="flex flex-col gap-3">
-      <Review placeId={placeId} roomId={roomId} />
-
-      {reviews.map(({ id, author, editDate, images, ratings, content }) => (
-        <ReviewCard
-          key={id}
-          author={author}
-          editDate={editDate}
-          images={images}
-          ratings={ratings}
-          content={content}
-        />
-      ))}
     </div>
   )
 }
