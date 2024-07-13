@@ -52,7 +52,7 @@ export const API_ENDPOINT = {
 
   search: {
     searchByKeyword: () => ({
-      url: `/regions`,
+      url: `/places/search`,
       method: HttpMethod.GET,
     }),
   },

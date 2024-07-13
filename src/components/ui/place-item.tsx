@@ -11,10 +11,8 @@ export function PlaceItem({ place }: PlaceItemProps) {
   return (
     <div className="relative flex w-full justify-between px-4 py-5">
       <div className="flex flex-col justify-between">
-        <div className="inline-block w-[240px] align-baseline">
-          <span className="pr-2 text-[16px] font-semibold">{name}</span>
-          <span className="text-[10px]">{simpleAddress}</span>
-        </div>
+        <div className="pr-2 text-[16px] font-semibold">{name}</div>
+        <div className="text-[10px]">{simpleAddress}</div>
         <div className="flex gap-[2px] pb-1">
           <span className="mr-1 text-[12px] text-point">3.2</span>
           {Array.from({ length: 5 }).map((_, index) => (
