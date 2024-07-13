@@ -13,7 +13,7 @@ import { debounce } from 'lodash'
 export default function Home() {
   const [isFocused, setIsFocused] = useState(false)
   const [debouncedSearchValue, setDebouncedSearchValue] = useState('')
-  const searhInputRef = useRef<HTMLInputElement>(null)
+  const searchInputRef = useRef<HTMLInputElement>(null)
 
   const ArrowLeftButton = useCallback(
     () =>
@@ -23,7 +23,7 @@ export default function Home() {
           size="icon"
           onClick={() => {
             setIsFocused(false)
-            searhInputRef.current && (searhInputRef.current.value = '')
+            searchInputRef.current && (searchInputRef.current.value = '')
           }}
         >
           <ArrowLeft />
@@ -47,7 +47,7 @@ export default function Home() {
           </div>
         )}
         <AdornmentInput
-          ref={searhInputRef}
+          ref={searchInputRef}
           onChange={(e) => debounceChange(e.target.value)}
           onFocus={() => setIsFocused(true)}
           StartAdornment={() => <ArrowLeftButton />}
