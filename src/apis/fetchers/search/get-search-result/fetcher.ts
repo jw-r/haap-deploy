@@ -1,25 +1,17 @@
 import { API_ENDPOINT } from '@/apis/api-endpoint'
-import { Tag } from '@/apis/types/dto/place.dto'
+import { SimplePlace } from '@/apis/types/dto/place.dto'
 import { apiClient } from '@/lib/api-client'
 
 export interface GetSearchResultParams extends NextFetchRequestConfig {
   queryParams: {
-    keyword: string
+    keyword?: string
   }
 }
 
 interface GetSearchResultResponse {
   districts: string[]
   stations: string[]
-  places: {
-    id: number
-    name: string
-    tags: Tag[]
-    simpleAddress: string
-    representationImage: string
-    latitude: number
-    longitude: number
-  }[]
+  places: SimplePlace[]
 }
 
 export const getSearchResult = async (params: GetSearchResultParams) => {

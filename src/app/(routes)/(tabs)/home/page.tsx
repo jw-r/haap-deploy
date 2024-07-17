@@ -1,6 +1,6 @@
 'use client'
 import Image from 'next/image'
-import { Suspense, useCallback, useRef, useState } from 'react'
+import { Suspense, useCallback, useMemo, useRef } from 'react'
 import AdornmentInput from '@/components/adornment-input'
 import { ArrowLeft } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -9,10 +9,17 @@ import images from '@/constants/images'
 import { SearchResult } from './components/search-result'
 import { cn } from '@/lib/utils'
 import { debounce } from 'lodash'
+import { useRouter } from 'next/navigation'
 
-export default function Home() {
-  const [isFocused, setIsFocused] = useState(false)
-  const [debouncedSearchValue, setDebouncedSearchValue] = useState('')
+interface HomeProps {
+  searchParams: {
+    keyword?: string
+  }
+}
+
+export default function Home({ searchParams: { keyword } }: HomeProps) {
+  const isFocused = useMemo(() => keyword !== undefined, [keyword])
+  const router = useRouter()
   const searchInputRef = useRef<HTMLInputElement>(null)
 
   const ArrowLeftButton = useCallback(
@@ -22,18 +29,18 @@ export default function Home() {
           variant="ghost"
           size="icon"
           onClick={() => {
-            setIsFocused(false)
+            router.push(`/home`)
             searchInputRef.current && (searchInputRef.current.value = '')
           }}
         >
           <ArrowLeft />
         </Button>
       ),
-    [isFocused],
+    [isFocused, router],
   )
 
   const debounceChange = debounce((value: string) => {
-    setDebouncedSearchValue(value)
+    void router.push(`/home?keyword=${value}`)
   }, 500)
 
   return (
@@ -47,15 +54,16 @@ export default function Home() {
           </div>
         )}
         <AdornmentInput
+          defaultValue={keyword}
           ref={searchInputRef}
           onChange={(e) => debounceChange(e.target.value)}
-          onFocus={() => setIsFocused(true)}
+          onFocus={(e) => router.push(`/home?keyword=${e.target.value}`)}
           StartAdornment={() => <ArrowLeftButton />}
         />
         {isFocused &&
-          (debouncedSearchValue ? (
+          (keyword ? (
             <Suspense>
-              <SearchResult searchValue={debouncedSearchValue} />
+              <SearchResult searchValue={keyword} />
             </Suspense>
           ) : (
             <div>검색어가 없습니다</div>

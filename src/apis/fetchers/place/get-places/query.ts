@@ -6,8 +6,9 @@ const GetPlacesKey = 'get-places'
 
 export const useGetPlaces = (props: GetPlacesParams) => {
   return useQuery({
-    queryKey: [GetPlacesKey],
+    queryKey: [GetPlacesKey, props.queryParams.address || props.queryParams.station],
     queryFn: () => getPlaces(props),
     staleTime: DEFAULT_STALE_TIME,
+    enabled: !!props.queryParams.address || !!props.queryParams.station,
   })
 }

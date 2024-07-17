@@ -1,15 +1,60 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import NaverMap from './components/naver-map'
 import { PlaceItem } from '@/components/ui/place-item'
-import { mockingPlaceList } from './mocks'
 import Marker from './components/marker'
-import SearchInput from '@/components/search-input'
 import Link from 'next/link'
+import type { Place } from '@/types'
+import { useGetSearchResult } from '@/apis/fetchers/search/get-search-result/query'
+import { useGetPlaces } from '@/apis/fetchers/place/get-places/query'
+import AdornmentInput from '@/components/adornment-input'
+import { Button } from '@/components/ui/button'
+import { ArrowLeft } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 
-export default function Place() {
-  const [currentPlace, setCurrentPlace] = useState(mockingPlaceList[0])
+interface PlaceProps {
+  searchParams: {
+    keyword?: string
+    station?: string
+    address?: string
+  }
+}
+
+export default function Place({ searchParams: { keyword, station, address } }: PlaceProps) {
+  const router = useRouter()
+  const searchKeyword = useMemo(() => keyword || station || address, [keyword, station, address])
+  const [isShrink, setIsShrink] = useState(true)
+  const {
+    data: { places: keywordPlaceList },
+  } = useGetSearchResult({
+    queryParams: {
+      keyword,
+    },
+  })
+
+  const { data: locationPlaceList } = useGetPlaces({
+    queryParams: {
+      station,
+      address,
+    },
+  })
+
+  const placeList = useMemo(
+    () =>
+      keywordPlaceList.length
+        ? keywordPlaceList
+        : locationPlaceList?.length
+          ? locationPlaceList
+          : [],
+    [keywordPlaceList, locationPlaceList],
+  )
+
+  const [currentPlace, setCurrentPlace] = useState(placeList[0])
+
+  useEffect(() => {
+    setCurrentPlace(placeList[0])
+  }, [placeList])
 
   const mapOptions = {
     minZoom: 9,
@@ -20,28 +65,63 @@ export default function Place() {
   return (
     <>
       <NaverMap mapOptions={mapOptions}>
-        {mockingPlaceList.map((place) => {
-          const { id, latitude, longitude } = place
-          return (
-            <Marker
-              key={id}
-              id={id}
-              coordinates={{ lat: latitude, lng: longitude }}
-              onClick={() => setCurrentPlace(place)}
-              active={currentPlace.id === id}
-            />
-          )
-        })}
+        {placeList
+          .toSorted((a, b) => a.latitude - b.latitude)
+          .map((place) => {
+            const { id, latitude, longitude } = place
+            return (
+              <Marker
+                key={id}
+                id={id}
+                coordinates={{ lat: latitude, lng: longitude }}
+                onClick={() => setCurrentPlace(place)}
+                active={currentPlace?.id === id}
+              />
+            )
+          })}
       </NaverMap>
-      <div className="absolute top-[77px] mx-[calc(50%-160px)] w-[320px]">
-        <SearchInput />
+      <div className="absolute top-[77px] w-full px-[24px] gap-2 flex flex-col items-center">
+        <AdornmentInput
+          defaultValue={searchKeyword}
+          onFocus={() => {
+            router.push(`/home?keyword=${searchKeyword}`)
+          }}
+          StartAdornment={() => (
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => {
+                router.back()
+              }}
+            >
+              <ArrowLeft />
+            </Button>
+          )}
+        />
+        <button
+          className="bg-background-secondary rounded-full p-[6px] w-fit text-[12px]"
+          onClick={() => setIsShrink(!isShrink)}
+        >
+          {isShrink ? '목록 보기' : '목록 닫기'}
+        </button>
       </div>
-      <Link
-        href={`/place/${currentPlace.id}`}
-        className="absolute bottom-0 w-full bg-background-secondary"
-      >
-        <PlaceItem place={currentPlace} />
-      </Link>
+      {isShrink && currentPlace && (
+        <Link
+          href={`/place/${currentPlace.id}`}
+          className="absolute bottom-0 w-full bg-background-secondary"
+        >
+          <PlaceItem place={currentPlace} />
+        </Link>
+      )}
+      {!isShrink && (
+        <div className="absolute bottom-0 w-full bg-background-secondary h-[70vh]">
+          {placeList.map((place) => (
+            <Link key={place.id} href={`/place/${place.id}`}>
+              <PlaceItem place={place} />
+            </Link>
+          ))}
+        </div>
+      )}
     </>
   )
 }

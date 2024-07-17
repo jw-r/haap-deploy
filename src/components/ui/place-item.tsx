@@ -1,20 +1,20 @@
 import Image from 'next/image'
 import icons from '@/constants/icons'
-import { Place } from '@/types'
+import { SimplePlace } from '@/apis/types/dto/place.dto'
 
 interface PlaceItemProps {
-  place: Place
+  place: SimplePlace
 }
 
 export function PlaceItem({ place }: PlaceItemProps) {
-  const { name, tags, simpleAddress, representationImage } = place
+  const { name, tags, averageRating, simpleAddress, representationImage } = place
   return (
     <div className="relative flex w-full justify-between px-4 py-5">
       <div className="flex flex-col justify-between">
         <div className="pr-2 text-[16px] font-semibold">{name}</div>
         <div className="text-[10px]">{simpleAddress}</div>
         <div className="flex gap-[2px] pb-1">
-          <span className="mr-1 text-[12px] text-point">3.2</span>
+          <span className="mr-1 text-[12px] text-point">{averageRating}</span>
           {Array.from({ length: 5 }).map((_, index) => (
             <Image key={index} src={icons.star} width={16} height={16} alt="" />
           ))}

@@ -16,12 +16,20 @@ const Marker = ({ coordinates, onClick, active }: MarkerProps): null => {
   const map = useContext(MapContext)
   const isMapReady = useMemo(() => !!map, [map])
   const [marker, setMarker] = useState<naver.maps.Marker | null>(null)
+
+  useEffect(() => {
+    if (active) {
+      map?.setCenter(coordinates)
+    }
+  }, [marker])
+
   useEffect(() => {
     if (!isMapReady || !map) return
     const newMarker = new naver.maps.Marker({
       map: map,
       position: new naver.maps.LatLng(coordinates),
       clickable: true,
+      icon: active ? BIG_MARKER : SMALL_MARKER,
     })
     setMarker(newMarker)
     const listenerEvent = onClick && newMarker?.addListener('click', onClick)
@@ -35,6 +43,7 @@ const Marker = ({ coordinates, onClick, active }: MarkerProps): null => {
 
   useEffect(() => {
     marker?.setIcon({ url: active ? BIG_MARKER : SMALL_MARKER })
+    marker?.setZIndex(active ? 1 : 0)
     marker?.draw()
   }, [active, marker])
   return null

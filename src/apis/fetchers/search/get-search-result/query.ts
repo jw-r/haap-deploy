@@ -7,9 +7,10 @@ export const useGetSearchResult = (props: GetSearchResultParams) => {
   return useQuery({
     queryKey: [getSearchResultKey, props.queryParams.keyword],
     queryFn: () => {
-      if (!props.queryParams.keyword) return { districts: [], places: [], stations: [] }
+      // if (!props.queryParams.keyword) return { districts: [], places: [], stations: [] }
       return getSearchResult(props)
     },
     initialData: { districts: [], places: [], stations: [] },
+    enabled: !!props.queryParams.keyword,
   })
 }
