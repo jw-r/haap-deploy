@@ -1,5 +1,5 @@
 import Review from '@/components/ui/review'
-import { reviews } from '../[roomId]/mocks'
+import { reviews, mockRatings } from '../[roomId]/mocks'
 import ReviewCard from '@/components/ui/review-card'
 
 export function RoomReviews() {
@@ -9,7 +9,12 @@ export function RoomReviews() {
   const roomId = 1
   return (
     <div className="flex flex-col gap-3">
-      <Review placeId={placeId} roomId={roomId} />
+      <Review
+        placeId={placeId}
+        roomId={roomId}
+        averageRatings={mockRatings}
+        reviewCount={reviews.length}
+      />
 
       {reviews.map(({ id, author, editDate, images, ratings, content }) => (
         <ReviewCard

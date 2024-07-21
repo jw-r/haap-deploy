@@ -1,12 +1,19 @@
+import { Category, Rating } from '@/apis/types/dto/review.dto'
 import icons from '@/constants/icons'
 import Image from 'next/image'
 
 interface CardProps {
   author: string
   editDate: string
-  ratings: { id: string; rate: number; label: string }[]
+  ratings: Rating[]
   content: string
   images?: string[]
+}
+
+const categoryToKoLabel: Record<Category, string> = {
+  PRICE: '가격',
+  POSITION: '시설',
+  INFRA: '위치',
 }
 
 export default function ReviewCard({ author, editDate, ratings, content, images }: CardProps) {
@@ -18,7 +25,7 @@ export default function ReviewCard({ author, editDate, ratings, content, images 
       </div>
 
       <div className="flex flex-col gap-[8px] text-[12px]">
-        {images?.length && (
+        {!!images?.length && (
           <div className="flex h-[80px] gap-3 overflow-y-scroll">
             {images.map((url, index) => (
               <div key={index} className="relative aspect-square">
@@ -37,14 +44,14 @@ export default function ReviewCard({ author, editDate, ratings, content, images 
       </div>
 
       <div className="flex justify-between">
-        {ratings.map(({ id, rate, label }) => (
+        {ratings.map(({ category, rating }) => (
           <div
-            key={id}
+            key={category}
             className="flex h-[23px] gap-[4px] bg-background-secondary py-[4px] text-[12px]"
           >
-            <Image key={id} src={icons.star} width={12} height={11.4} alt="" />
-            <div className="text-point">{rate.toFixed(1)}</div>
-            <div>{label}</div>
+            <Image src={icons.star} width={12} height={11.4} alt="" />
+            <div className="text-point">{rating.toFixed(1)}</div>
+            <div>{categoryToKoLabel[category]}</div>
           </div>
         ))}
       </div>

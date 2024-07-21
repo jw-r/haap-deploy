@@ -2,10 +2,11 @@ import { API_ENDPOINT } from '@/apis/api-endpoint'
 import { Review } from '@/apis/types/dto/review.dto'
 import { apiClient } from '@/lib/api-client'
 
-interface GetRoomsReviewsParams extends NextFetchRequestConfig {
+export interface GetRoomsReviewsParams extends NextFetchRequestConfig {
   queryParams: {
     roomIds?: number[]
     startId?: number
+    count?: number
   }
 }
 

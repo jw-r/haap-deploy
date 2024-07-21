@@ -1,11 +1,18 @@
+export type Category = 'PRICE' | 'POSITION' | 'INFRA'
+
 export interface Rating {
-  category: 'price' | 'position' | 'infra'
+  category: Category
   rating: number
+}
+
+export interface Writer {
+  id: number
+  memberIdentity: string
 }
 
 export interface Review {
   id: number
-  writer?: object // API 명세에 작성되어 있지 않음
+  writer: Writer // API 명세에 작성되어 있지 않음
   content: string
   photos: string[]
   ratings: Rating[]

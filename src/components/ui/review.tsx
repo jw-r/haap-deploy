@@ -1,25 +1,34 @@
+import { Category, Rating } from '@/apis/types/dto/review.dto'
 import icons from '@/constants/icons'
 import Image from 'next/image'
 import Link from 'next/link'
 
-const mockRatings = [
-  { id: 'price', rate: 5, label: '가격' },
-  { id: 'facilities', rate: 5, label: '시설' },
-  { id: 'location', rate: 5, label: '위치' },
-]
-
 interface ReviewProps {
   placeId: number
   roomId: number
+  reviewCount: number
+  averageRatings: Rating[]
 }
 
-export default function Review({ placeId, roomId }: ReviewProps) {
+const categoryToKoLabel: Record<Category, string> = {
+  PRICE: '가격',
+  POSITION: '시설',
+  INFRA: '위치',
+}
+
+// 필요한 데이터:
+export default function Review({ placeId, roomId, reviewCount, averageRatings }: ReviewProps) {
+  const totalAverageRating = averageRatings.reduce(
+    (prev, { rating }) => prev + rating / averageRatings.length,
+    0,
+  )
+
   return (
     <div className="flex flex-col gap-3">
       <div className="flex items-center justify-between text-[12px]">
         <div className="flex gap-3">
           <span>리뷰</span>
-          <span className="text-point">8개</span>
+          <span className="text-point">{reviewCount}</span>
         </div>
         <Link
           href={{
@@ -37,7 +46,7 @@ export default function Review({ placeId, roomId }: ReviewProps) {
         </Link>
       </div>
       <div className="flex items-center gap-[7px] px-[16px]">
-        <span className="text-point">3.2</span>
+        <span className="text-point">{totalAverageRating.toFixed(1)}</span>
         <div className="flex gap-[2px] pb-1">
           {Array.from({ length: 5 }).map((_, index) => (
             <Image key={index} src={icons.star} width={20} height={19} alt="" />
@@ -45,14 +54,14 @@ export default function Review({ placeId, roomId }: ReviewProps) {
         </div>
       </div>
       <div className="flex justify-between px-[16px]">
-        {mockRatings.map(({ id, rate, label }) => (
+        {averageRatings.map(({ category, rating }) => (
           <div
-            key={id}
+            key={category}
             className="flex h-[23px] gap-[4px] rounded-[12px] bg-background-secondary px-[10px] py-[4px] text-[12px]"
           >
-            <Image key={id} src={icons.star} width={12} height={11.4} alt="" />
-            <div className="text-point">{rate.toFixed(1)}</div>
-            <div>{label}</div>
+            <Image key={category} src={icons.star} width={12} height={11.4} alt="" />
+            <div className="text-point">{rating.toFixed(1)}</div>
+            <div>{categoryToKoLabel[category]}</div>
           </div>
         ))}
       </div>

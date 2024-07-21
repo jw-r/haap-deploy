@@ -1,13 +1,9 @@
-type Rating = {
-  id: string
-  rate: number
-  label: string
-}
+import { Rating } from '@/apis/types/dto/review.dto'
 
 const mockRatings: Rating[] = [
-  { id: 'price', rate: 5, label: '가격' },
-  { id: 'facilities', rate: 5, label: '시설' },
-  { id: 'location', rate: 5, label: '위치' },
+  { category: 'PRICE', rating: 5 },
+  { category: 'INFRA', rating: 5 },
+  { category: 'POSITION', rating: 5 },
 ]
 
 const mockImages = [

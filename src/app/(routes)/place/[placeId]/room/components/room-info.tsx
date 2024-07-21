@@ -1,6 +1,6 @@
 import { Heart } from 'lucide-react'
 import Link from 'next/link'
-import { mockImages, reviews } from '../[roomId]/mocks'
+import { mockImages, reviews, mockRatings } from '../[roomId]/mocks'
 import Image from 'next/image'
 import Review from '@/components/ui/review'
 import ReviewCard from '@/components/ui/review-card'
@@ -67,7 +67,12 @@ export function RoomInfo() {
       </section>
 
       <section className="flex flex-col gap-3 pt-[18px]">
-        <Review placeId={placeId} roomId={roomId} />
+        <Review
+          placeId={placeId}
+          roomId={roomId}
+          averageRatings={mockRatings}
+          reviewCount={reviews.length}
+        />
 
         {reviews.slice(2).map(({ id, author, editDate, images, ratings, content }) => (
           <ReviewCard
