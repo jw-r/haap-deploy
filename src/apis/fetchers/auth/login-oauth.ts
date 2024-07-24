@@ -6,14 +6,15 @@ interface LoginOauthParams {
   accessToken: string
 }
 
-interface LoginOauthResponse {}
+interface LoginOauthResponse {
+  accessToken: string
+}
 
 export const loginOauth = async (params: LoginOauthParams) => {
   return await apiClient.fetch<LoginOauthResponse>({
     ...API_ENDPOINT.auth.loginOauth(),
     body: {
-      oauthProvider: params.oauthProvider,
-      accessToken: params.accessToken,
+      ...params,
     },
   })
 }

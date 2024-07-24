@@ -1,19 +1,14 @@
-import NextAuth, { Account, DefaultSession, NextAuthResult } from 'next-auth'
+import NextAuth, { NextAuthResult, Session } from 'next-auth'
 import Kakao from 'next-auth/providers/kakao'
 import Google from 'next-auth/providers/google'
 import Naver from 'next-auth/providers/naver'
-import { UserDTO } from '@/apis/types/dto/user.dto'
 import { loginOauth } from '@/apis/fetchers/auth/login-oauth'
+import { getUserInfo } from '@/apis/fetchers/user/get-user-info'
+import { UserDTO } from '@/apis/types/dto/user.dto'
 
-declare module 'next-auth' {
-  interface Session {
-    user: {
-      id: string
-      accessToken: string
-      account: Account
-      dto: UserDTO
-    } & DefaultSession['user']
-  }
+interface CustomSession extends Session {
+  accessToken: string
+  user: UserDTO
 }
 
 export const {
@@ -27,20 +22,23 @@ export const {
     jwt: async ({ token, account }) => {
       if (account?.access_token) {
         try {
-          const user = await loginOauth({
+          const { accessToken } = await loginOauth({
             accessToken: account.access_token,
             oauthProvider: account.provider.toUpperCase() as 'KAKAO' | 'GOOGLE',
           })
-          token.userDTO = user
+          token.accessToken = accessToken
         } catch (error) {
+          console.error(error)
           throw new Error('Failed to LogIn')
         }
 
         try {
-          /* TODO Get User */
-          // const user = await getUserInfo()
-          // token.userDTO = user
+          const user = await getUserInfo({
+            accessToken: token.accessToken as string,
+          })
+          token.user = user as UserDTO
         } catch (error) {
+          console.error(error)
           throw new Error('Failed to get user')
         }
       }
@@ -49,12 +47,11 @@ export const {
     },
 
     session: ({ session, token }) => {
-      session.user.id = token.sub || ''
-      session.user.accessToken = token.accessToken as string
-      session.user.account = token.account as Account
-      session.user.dto = token.userDTO as UserDTO
+      const customSession = session as unknown as CustomSession
+      customSession.accessToken = token.accessToken as string
+      customSession.user = token.user as UserDTO
 
-      return session
+      return customSession
     },
   },
 }) satisfies NextAuthResult

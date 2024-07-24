@@ -78,6 +78,7 @@ class ApiClient {
         url,
       })
     }
+
     if (res.status === 204) {
       return Promise.resolve() as unknown as T
     }
