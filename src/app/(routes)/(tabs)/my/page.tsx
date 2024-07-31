@@ -1,4 +1,4 @@
-import { signOut } from '@/app/api/auth/[...nextauth]/auth'
+import { signOut, auth } from '@/app/api/auth/[...nextauth]/auth'
 import Link from 'next/link'
 import { Fragment } from 'react'
 
@@ -42,12 +42,15 @@ const sectionItems: SectionItem[] = [
   },
 ]
 
-export default function MyPage() {
+export default async function MyPage() {
+  const session = await auth()
+  const nickName = session?.user?.nickName
+
   return (
     <div className="mx-[32px] mt-[77px]">
       <div className="border-b-2 border-b-background-secondary pb-[16px]">
         <div className="text-[14px]">안녕하세요</div>
-        <div className="text-[36px] font-semibold">합죽이합님,</div>
+        <div className="text-[36px] font-semibold">{nickName}님,</div>
       </div>
       {sectionItems.map(({ title, items }) => (
         <div

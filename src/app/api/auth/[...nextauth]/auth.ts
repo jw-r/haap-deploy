@@ -36,7 +36,7 @@ export const {
           const user = await getUserInfo({
             accessToken: token.accessToken as string,
           })
-          token.user = user as UserDTO
+          token.user = user
         } catch (error) {
           console.error(error)
           throw new Error('Failed to get user')

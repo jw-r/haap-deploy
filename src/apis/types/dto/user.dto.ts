@@ -1,5 +1,5 @@
 export interface UserDTO {
   id: string
-  nickname: string
+  nickName: string
   oauthProvider: 'NAVER' | 'GOOGLE'
 }

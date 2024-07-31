@@ -1,18 +1,13 @@
 import { API_ENDPOINT } from '@/apis/api-endpoint'
 import { apiClient } from '@/lib/api-client'
+import { UserDTO } from '@/apis/types/dto/user.dto'
 
 interface GetUserInfoRequest {
   accessToken: string
 }
 
-interface GetUserInfoResponse {
-  id: string
-  nickname: string
-  oauthProvider: 'GOOGLE' | 'KAKAO'
-}
-
 export const getUserInfo = async (params: GetUserInfoRequest) => {
-  return await apiClient.fetch<GetUserInfoResponse>({
+  return await apiClient.fetch<UserDTO>({
     ...API_ENDPOINT.user.getUserinfo(),
     headers: {
       Authorization: `Bearer ${params?.accessToken}`,

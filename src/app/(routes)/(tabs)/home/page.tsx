@@ -10,6 +10,7 @@ import { SearchResult } from './components/search-result'
 import { cn } from '@/lib/utils'
 import { debounce } from 'lodash'
 import { useRouter } from 'next/navigation'
+import { useUser } from '@/hooks/use-user'
 
 interface HomeProps {
   searchParams: {
@@ -21,6 +22,11 @@ export default function Home({ searchParams: { keyword } }: HomeProps) {
   const isFocused = useMemo(() => keyword !== undefined, [keyword])
   const router = useRouter()
   const searchInputRef = useRef<HTMLInputElement>(null)
+  const { user, status } = useUser()
+  const userName = useMemo(
+    () => (status === 'authenticated' ? user?.nickName : status === 'loading' ? 'OOO' : '게스트'),
+    [user, status],
+  )
 
   const ArrowLeftButton = useCallback(
     () =>
@@ -49,7 +55,7 @@ export default function Home({ searchParams: { keyword } }: HomeProps) {
       <div className="absolute z-10 flex w-full flex-col items-center gap-[24px] px-[24px] pt-[77px]">
         {!isFocused && (
           <div className="mt-[80px] flex flex-col gap-[12px]">
-            <div className="text-[36px] font-bold">합죽이합님,</div>
+            <div className="text-[36px] font-bold">{userName}님,</div>
             <p className="text-[14px]">당신의 열정을 보여줄 수 있는 합주실을 찾아보세요</p>
           </div>
         )}
