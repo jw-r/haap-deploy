@@ -41,7 +41,7 @@ export default function ReviewForm({ handleSubmit }: ReviewFormProps) {
   return (
     <form className="flex flex-col gap-[16px]" action={handleSubmit}>
       <select
-        defaultValue={roomId}
+        value={roomId}
         className="w-full rounded bg-background-secondary p-2"
         name="roomId"
         onChange={(e) => onRoomIdChange(e.target.value)}
@@ -59,7 +59,7 @@ export default function ReviewForm({ handleSubmit }: ReviewFormProps) {
             htmlFor="image-upload"
             className="flex size-full items-center justify-center bg-gray"
           >
-            <Image src={icons.camera} width={20} height={20} alt="" />
+            <Image src={icons.camera} width={20} alt="" />
             <input
               multiple
               id="image-upload"
@@ -74,10 +74,10 @@ export default function ReviewForm({ handleSubmit }: ReviewFormProps) {
         </div>
         {images.map((src) => (
           <div className="relative aspect-square" key={src}>
-            <Image src={src} alt="업로드 이미지" fill style={{ aspectRatio: 1, height: '100%' }} />
+            <Image src={src} alt="업로드 이미지" fill className="size-full object-cover" />
           </div>
         ))}
-        <input value={images} name="images" className="hidden" />
+        <input value={images} name="images" className="hidden" readOnly />
       </div>
       <textarea
         rows={4}
