@@ -1,5 +1,6 @@
 import { getRoomsReviews } from '@/apis/fetchers/review/get-rooms-reviews/fetcher'
 import { getRoomsByPlaceId } from '@/apis/fetchers/room/get-rooms-by-place-id/fetcher'
+import { Rating } from '@/apis/types/dto/review.dto'
 import Review from '@/components/ui/review'
 import ReviewCard from '@/components/ui/review-card'
 
@@ -23,13 +24,19 @@ export default async function PlaceReviews({ placeId, maxLength }: PlaceReviewPr
   const reviewCount = reviews.length
   const visualizedReviews = reviews.slice(0, maxLength)
 
-  const averageRatings = reviews.reduce(
+  const noRatings: Rating[] = [
+    { category: 'PRICE', rating: 0 },
+    { category: 'POSITION', rating: 0 },
+    { category: 'INFRA', rating: 0 },
+  ]
+
+  const averageRatings: Rating[] = reviews.reduce(
     (prev, { ratings: reviewRatings }) =>
       prev.map(({ category, rating }, idx) => ({
         category,
         rating: rating + reviewRatings[idx].rating / reviewCount,
       })),
-    reviews[0].ratings.map((rating) => ({ ...rating, rating: 0 })),
+    noRatings,
   )
   return (
     <div className="flex flex-col gap-3">

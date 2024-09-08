@@ -17,6 +17,11 @@ const nextConfig = {
         hostname: 'zrr.kr',
         port: '',
       },
+      {
+        protocol: 'https',
+        hostname: 'example.com',
+        port: '',
+      },
     ],
   },
 }
