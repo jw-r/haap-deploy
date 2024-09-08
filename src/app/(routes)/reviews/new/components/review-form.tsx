@@ -4,7 +4,7 @@ import RatingQuestion from './rating-question'
 import Image from 'next/image'
 import icons from '@/constants/icons'
 import { useState } from 'react'
-import { useSearchParams } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useGetRoomsByPlaceId } from '@/apis/fetchers/room/get-rooms-by-place-id/query'
 
 const ratingContents = [
@@ -20,6 +20,8 @@ interface ReviewFormProps {
 export default function ReviewForm({ handleSubmit }: ReviewFormProps) {
   const [images, setImages] = useState<string[]>([])
   const searchParams = useSearchParams()
+  const router = useRouter()
+  const pathname = usePathname()
 
   const roomId = searchParams.get('roomId') || undefined
   const placeId = searchParams.get('placeId') || undefined
@@ -35,7 +37,7 @@ export default function ReviewForm({ handleSubmit }: ReviewFormProps) {
   function onRoomIdChange(id: string) {
     const params = new URLSearchParams(searchParams.toString())
     params.set('roomId', id)
-    window.history.pushState(null, '', `?${params.toString()}`)
+    router.replace(`${pathname}?${params.toString()}`)
   }
 
   return (
