@@ -10,7 +10,7 @@ import { useGetRoomsByPlaceId } from '@/apis/fetchers/room/get-rooms-by-place-id
 const ratingContents = [
   { question: '가격은 합리적이었나요?', category: 'price' },
   { question: '시설은 만족스러우셨나요?', category: 'infra' },
-  { question: '접근성은 좋으셨나요?', category: 'location' },
+  { question: '접근성은 좋으셨나요?', category: 'position' },
 ]
 
 interface ReviewFormProps {
@@ -81,7 +81,7 @@ export default function ReviewForm({ handleSubmit }: ReviewFormProps) {
       </div>
       <textarea
         rows={4}
-        name="text"
+        name="content"
         className="block w-full bg-background-secondary p-[8px]"
         placeholder="후기를 남겨주세요"
       />
