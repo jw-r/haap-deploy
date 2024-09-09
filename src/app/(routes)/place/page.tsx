@@ -80,7 +80,7 @@ export default function Place({ searchParams: { keyword, station, address } }: P
             )
           })}
       </NaverMap>
-      <div className="absolute top-[77px] w-full px-[24px] gap-2 flex flex-col items-center">
+      <div className="absolute top-[77px] flex w-full flex-col items-center gap-2 px-[24px]">
         <AdornmentInput
           defaultValue={searchKeyword}
           onFocus={() => {
@@ -99,7 +99,7 @@ export default function Place({ searchParams: { keyword, station, address } }: P
           )}
         />
         <button
-          className="bg-background-secondary rounded-full p-[6px] w-fit text-[12px]"
+          className="w-fit rounded-full bg-background-secondary p-[6px] text-[12px]"
           onClick={() => setIsShrink(!isShrink)}
         >
           {isShrink ? '목록 보기' : '목록 닫기'}
@@ -114,7 +114,7 @@ export default function Place({ searchParams: { keyword, station, address } }: P
         </Link>
       )}
       {!isShrink && (
-        <div className="absolute bottom-0 w-full bg-background-secondary h-[70vh]">
+        <div className="absolute bottom-0 h-[70vh] w-full bg-background-secondary">
           {placeList.map((place) => (
             <Link key={place.id} href={`/place/${place.id}`}>
               <PlaceItem place={place} />

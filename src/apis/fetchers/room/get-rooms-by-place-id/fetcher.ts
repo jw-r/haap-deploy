@@ -1,5 +1,4 @@
 import { API_ENDPOINT } from '@/apis/api-endpoint'
-
 import { apiClient } from '@/lib/api-client'
 
 export interface GetRoomsByPlaceIdParams extends NextFetchRequestConfig {

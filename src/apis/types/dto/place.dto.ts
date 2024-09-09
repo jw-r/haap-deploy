@@ -1,3 +1,5 @@
+import { GetPlaceByIdResponse } from '@/apis/fetchers/place/get-place-by-id/fetcher'
+
 export type Date = 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 'sun'
 
 export type OperatingTime = Record<Date, string | null>
@@ -14,3 +16,5 @@ export interface SimplePlace {
   longitude: number
   averageRating: number
 }
+
+export interface PlaceInfo extends GetPlaceByIdResponse {}

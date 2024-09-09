@@ -16,11 +16,12 @@ export default async function PlaceReviews({ placeId, maxLength }: PlaceReviewPr
   const roomIds = placeRoom ? placeRoom.map(({ id }) => id) : []
   const reviews = await getRoomsReviews({
     queryParams: {
-      roomIds: roomIds,
+      roomIds,
       startId: roomIds[0],
       count: maxLength || DEFAULT_MAX_REVIEW_COUNT,
     },
   })
+
   const reviewCount = reviews.length
   const visualizedReviews = reviews.slice(0, maxLength)
 
@@ -38,6 +39,7 @@ export default async function PlaceReviews({ placeId, maxLength }: PlaceReviewPr
       })),
     noRatings,
   )
+
   return (
     <div className="flex flex-col gap-3">
       <Review

@@ -7,7 +7,7 @@ export interface GetPlaceByIdParams extends NextFetchRequestConfig {
   placeId: number
 }
 
-interface GetPlaceByIdResponse {
+export interface GetPlaceByIdResponse {
   name: string
   tags: Tag[]
   operatingTime: OperatingTime

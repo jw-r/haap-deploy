@@ -1,13 +1,16 @@
 import Image from 'next/image'
-import { mockImages } from '../[roomId]/mocks'
 
-export function RoomPhotos() {
+interface Props {
+  placePhotos: string[]
+}
+
+export function RoomPhotos({ placePhotos }: Props) {
   return (
     <div className="grid grid-cols-4 gap-[13px]">
-      {Array.from({ length: 100 }).map((_, index) => (
+      {placePhotos.map((photo, index) => (
         <div key={index} className="relative aspect-square">
           <Image
-            src={mockImages[0]}
+            src={photo}
             alt=""
             fill
             style={{ width: '100%', height: '100%' }}

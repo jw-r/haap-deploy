@@ -5,17 +5,18 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'resources.chimhaha.net',
-        port: '',
       },
       {
         protocol: 'https',
         hostname: 'cdn.pixabay.com',
-        port: '',
       },
       {
         protocol: 'https',
         hostname: 'zrr.kr',
-        port: '',
+      },
+      {
+        protocol: 'https',
+        hostname: 'example.com',
       },
       {
         protocol: 'https',

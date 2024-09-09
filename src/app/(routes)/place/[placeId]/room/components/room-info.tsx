@@ -1,15 +1,48 @@
-import { Heart } from 'lucide-react'
+'use client'
+
+import { CameraIcon, Heart } from 'lucide-react'
 import Link from 'next/link'
-import { mockImages, reviews, mockRatings } from '../[roomId]/mocks'
 import Image from 'next/image'
 import Review from '@/components/ui/review'
 import ReviewCard from '@/components/ui/review-card'
+import { dayIndexToDate, koreanDate } from '@/constants/date'
+import { PlaceInfo } from '@/apis/types/dto/place.dto'
+import { RoomInfo as RoomInfoDTO } from '@/apis/types/dto/room.dto'
+import { usePathname } from 'next/navigation'
+import { useQuery } from '@tanstack/react-query'
+import { getRoomsReviews } from '@/apis/fetchers/review/get-rooms-reviews/fetcher'
+import { Rating } from '@/apis/types/dto/review.dto'
 
-export function RoomInfo() {
-  // TODO: 추후 실제 값으로 대체 Review 수정으로 인한 가짜 데이터 추가
+interface Props {
+  placeInfo: PlaceInfo
+  roomInfo: RoomInfoDTO
+  placePhotos: string[]
+}
 
-  const placeId = 1
-  const roomId = 1
+export function RoomInfo({ placeInfo, roomInfo, placePhotos }: Props) {
+  const dayIndex = new Date().getDay()
+  const date = dayIndexToDate[dayIndex]
+  const operatingTimeString = `${koreanDate[date]} : ${placeInfo.operatingTime[date] || '영업시간 없음'}`
+  const pathname = usePathname()
+  const { data } = useQuery({
+    queryKey: ['room reviews', roomInfo.id],
+    queryFn: () =>
+      getRoomsReviews({
+        queryParams: {
+          startId: 0,
+          count: 10,
+          roomIds: [roomInfo.id],
+        },
+      }),
+  })
+
+  const reviewCount = data?.length || 0
+
+  const noRatings: Rating[] = [
+    { category: 'PRICE', rating: 0 },
+    { category: 'POSITION', rating: 0 },
+    { category: 'INFRA', rating: 0 },
+  ]
 
   return (
     <div className="divide-y divide-solid divide-background-secondary">
@@ -18,33 +51,21 @@ export function RoomInfo() {
         <div className="flex flex-col gap-3 text-[12px]">
           <div className="flex items-start gap-3">
             <Heart size={14} className="shrink-0" />
-            <span>4인에서 6인정도 수용 가능한 공간 입니다. 악기는 드럼만 구비되어 있습니다.</span>
+            <span>{roomInfo.description}</span>
           </div>
           <div className="flex gap-3">
             <Heart size={14} className="shrink-0" />
-            <span>100,000원 ~ 120,000원</span>
+            <span>{placeInfo.address}</span>
           </div>
           <div className="flex gap-3">
             <Heart size={14} className="shrink-0" />
-            <span>4인 ~ 6인</span>
-          </div>
-          <div className="flex gap-3">
-            <Heart size={14} className="shrink-0" />
-            <span>경기 성남시 중원구 구체적인 주소 블라블라블라</span>
-          </div>
-          <div className="flex gap-3">
-            <Heart size={14} className="shrink-0" />
-            <span>매일 10:00 ~ 23:00</span>
+            <span>{operatingTimeString}</span>
           </div>
           <div className="flex gap-3">
             <Heart size={14} className="shrink-0" />
             <Link href="" className="text-link">
-              홈페이지 주소.com
+              {placeInfo.url}
             </Link>
-          </div>
-          <div className="flex gap-3">
-            <Heart size={14} className="shrink-0" />
-            <span className="text-link">010-0000-0000</span>
           </div>
         </div>
       </section>
@@ -52,38 +73,64 @@ export function RoomInfo() {
       <section className="flex flex-col gap-3 pb-[36px] pt-[18px]">
         <span className="text-[12px]">리뷰 사진</span>
         <div className="grid h-[80px] grid-cols-4 gap-[13px]">
-          {mockImages.slice(0, 4).map((url, index) => (
-            <div key={index} className="relative aspect-square">
-              <Image
-                src={url}
-                alt=""
-                fill
-                style={{ width: '100%', height: '100%' }}
-                objectFit="cover"
-              />
-            </div>
-          ))}
+          {placePhotos.slice(0, 3).map((url, index) => {
+            const isLast = index === placePhotos.length - 1
+
+            if (isLast) {
+              return (
+                <Link
+                  key={index}
+                  href={`${pathname}?tab=photos`}
+                  className="relative aspect-square"
+                >
+                  <Image
+                    src={roomInfo.representativePhoto}
+                    alt=""
+                    fill
+                    className="size-full"
+                    objectFit="cover"
+                  />
+                  <div className="absolute inset-0 bg-slate-900/50">
+                    <div className="center flex items-end gap-[4px] text-[14px] font-medium">
+                      <CameraIcon width={18} className="inline" />
+                      <span>{placePhotos.length + (roomInfo.representativePhoto ? 1 : 0)}</span>
+                    </div>
+                  </div>
+                </Link>
+              )
+            }
+
+            return (
+              <div key={index} className="relative aspect-square">
+                <Image src={url} alt="" fill className="size-full" objectFit="cover" />
+              </div>
+            )
+          })}
         </div>
       </section>
 
       <section className="flex flex-col gap-3 pt-[18px]">
         <Review
-          placeId={placeId}
-          roomId={roomId}
-          averageRatings={mockRatings}
-          reviewCount={reviews.length}
+          placeId={1}
+          roomId={roomInfo.id}
+          averageRatings={
+            reviewCount !== 0 ? data?.flatMap((review) => review.ratings) || [] : noRatings
+          }
+          reviewCount={reviewCount}
         />
 
-        {reviews.slice(2).map(({ id, author, editDate, images, ratings, content }) => (
-          <ReviewCard
-            key={id}
-            author={author}
-            editDate={editDate}
-            images={images}
-            ratings={ratings}
-            content={content}
-          />
-        ))}
+        {data
+          ?.slice(2)
+          .map(({ id, writer, content, photos, ratings, updatedAt }) => (
+            <ReviewCard
+              key={id}
+              author={writer.memberIdentity}
+              editDate={updatedAt}
+              images={photos}
+              ratings={ratings}
+              content={content}
+            />
+          ))}
       </section>
     </div>
   )

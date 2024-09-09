@@ -12,6 +12,11 @@ export const API_ENDPOINT = {
       method: HttpMethod.GET,
     }),
 
+    getRoomReviews: (id: number) => ({
+      url: `/rooms/${id}/reviews`,
+      method: HttpMethod.GET,
+    }),
+
     getMyReviews: () => ({
       url: `/myreviews`,
       method: HttpMethod.GET,
@@ -42,7 +47,10 @@ export const API_ENDPOINT = {
     }),
 
     /** 미완 */
-    getRoomById: () => ({}),
+    getRoomById: (roomId: number) => ({
+      url: `/places/rooms/${roomId}`,
+      method: HttpMethod.GET,
+    }),
 
     getRoomPhotos: (roomId: number) => ({
       url: `/rooms/${roomId}/photos`,

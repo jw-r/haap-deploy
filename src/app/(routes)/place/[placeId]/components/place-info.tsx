@@ -4,7 +4,7 @@ import PlaceRoomList from './place-room-list'
 import PlacePhotos from './place-photos'
 import { getPlaceById } from '@/apis/fetchers/place/get-place-by-id/fetcher'
 import PlaceReviews from './place-review'
-import { type Date } from '@/apis/types/dto/place.dto'
+import { dayIndexToDate, koreanDate } from '@/constants/date'
 
 interface PlacePhotosProps {
   placeId: number
@@ -55,24 +55,4 @@ export default async function PlaceInfo({ placeId }: PlacePhotosProps) {
       <PlaceReviews placeId={placeId} maxLength={3} />
     </div>
   )
-}
-
-const dayIndexToDate: Record<number, Date> = {
-  0: 'sun',
-  1: 'mon',
-  2: 'tue',
-  3: 'wed',
-  4: 'thu',
-  5: 'fri',
-  6: 'sat',
-}
-
-const koreanDate: Record<Date, string> = {
-  mon: '월',
-  tue: '화',
-  wed: '수',
-  thu: '목',
-  fri: '금',
-  sat: '토',
-  sun: '일',
 }
