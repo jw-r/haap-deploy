@@ -18,11 +18,11 @@ export default auth((req) => {
 
   if (req.auth) {
     if (isPublicOnly) {
-      return NextResponse.redirect(new URL('/home', 'http://localhost:3000'))
+      return NextResponse.redirect(new URL('/home', req.nextUrl.origin))
     }
   } else {
     if (isPrivateOnly) {
-      return NextResponse.redirect(new URL('/', 'http://localhost:3000'))
+      return NextResponse.redirect(new URL('/', req.nextUrl.origin))
     }
   }
 })
