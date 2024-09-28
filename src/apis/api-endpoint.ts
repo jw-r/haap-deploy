@@ -94,5 +94,9 @@ export const API_ENDPOINT = {
       url: `/member-info`,
       method: HttpMethod.GET,
     }),
+    getFavorites: () => ({
+      url: `/favorites`,
+      method: HttpMethod.GET,
+    }),
   },
 }

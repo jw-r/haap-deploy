@@ -3,8 +3,11 @@ import { Review } from '@/apis/types/dto/review.dto'
 import { apiClient } from '@/lib/api-client'
 
 interface GetMyReviewsParams extends NextFetchRequestConfig {
-  queryParams: {
-    startId?: number
+  accessToken: string
+  queryParams?: {
+    startId: number
+    count: number
+    userId?: number
   }
 }
 
@@ -15,6 +18,9 @@ export const getMyReviews = async (params: GetMyReviewsParams) => {
     ...API_ENDPOINT.review.getMyReviews(),
     query: {
       ...params.queryParams,
+    },
+    headers: {
+      Authorization: `Bearer ${params?.accessToken}`,
     },
   })
 }

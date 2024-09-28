@@ -2,7 +2,7 @@ import icons from '@/constants/icons'
 import { Room } from '@/types'
 import Image from 'next/image'
 
-export default function RoomItem({ room }: { room: Room }) {
+export default function RoomItem({ room }: { room: Partial<Room> }) {
   const { name, averageRating, representativePhoto, description } = room
   return (
     <div className="relative flex w-full justify-between px-4 py-5">
@@ -11,7 +11,7 @@ export default function RoomItem({ room }: { room: Room }) {
           <span className="pr-2 text-[16px] font-semibold">{name}</span>
         </div>
         <div className="flex gap-[2px] pb-1">
-          <span className="mr-1 text-[12px] text-point">{averageRating.toFixed(1)}</span>
+          <span className="mr-1 text-[12px] text-point">{averageRating?.toFixed(1)}</span>
           {Array.from({ length: 5 }).map((_, index) => (
             <Image key={index} src={icons.star} width={16} height={16} alt="" />
           ))}
@@ -20,7 +20,7 @@ export default function RoomItem({ room }: { room: Room }) {
       </div>
       <div className="relative aspect-square w-[80px]">
         <Image
-          src={representativePhoto}
+          src={representativePhoto || ''}
           alt=""
           fill
           style={{ width: '100%', height: '100%' }}

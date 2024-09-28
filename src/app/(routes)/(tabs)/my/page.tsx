@@ -21,7 +21,6 @@ const sectionItems: SectionItem[] = [
   {
     title: '내 정보',
     items: [
-      { name: '회원정보 변경', type: 'link', href: '/' },
       { name: '개인정보처리방침', type: 'link', href: '/' },
       { name: '버전정보', type: 'link', href: '/' },
     ],

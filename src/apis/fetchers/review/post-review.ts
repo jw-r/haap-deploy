@@ -6,6 +6,7 @@ interface PostReviewParams extends NextFetchRequestConfig {
   roomId: number
   content: string
   ratings: Rating[]
+  accessToken: string
 }
 
 interface PostReviewResponse {}
@@ -16,6 +17,9 @@ export const postReview = async (params: PostReviewParams) => {
     body: {
       content: params.content,
       ratings: params.ratings,
+    },
+    headers: {
+      Authorization: `Bearer ${params?.accessToken}`,
     },
   })
 }
